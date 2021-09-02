@@ -1,0 +1,104 @@
+小程序——配置
+
+公有插件
+	插件——程序
+	  写
+	    插件里面可以有很多page
+	    插件需要声明——哪些是public
+
+	  用
+	    声明插件——用了哪些插件
+	      插件ID
+	    requirePlugin
+
+	插件项目
+	miniprogram/			测试
+	plugin/				插件主体
+	  page1/
+	  page2/
+	  page3/
+	  index.js			入口文件
+	  plugin.json			插件配置
+
+
+	App({
+	  xxx
+	});
+
+	Page({
+	  data: {},
+	  onload(){
+	  }
+	});
+
+	Component({
+	  data: {},
+	  attached(){
+	  }
+	});
+
+	用
+	1.app声明
+	  {
+	    pages: ...,
+	    window: ...,
+	    plugins: {			//先在微信后台添加
+	      '名字': {
+	        version: '1.0.0',
+	        provider: '插件ID'
+	      }
+	    }
+	  }
+
+	2.page.js引入插件(requirePlugin)
+	  const xxx=requirePlugin('名字');
+
+	3.使用
+	  <xxx></xxx>
+	  xxx.方法()...
+
+私有插件(组件)——在项目当中使用
+  1.页面声明——xxx.json
+    {
+      "usingComponents": {
+        "名字": "/xx/xxx/xxx/xxx"
+      }
+    }
+    
+  2.页面.js引用
+    名字
+
+------------------------------------------------------------------------------------------
+
+用户数据
+avatarUrl:"https://wx.qlogo.cn/mmopen/vi_32/PiajxSqBRaELyp9Aq0oAKGeT2micFEUXWgOY2TpUGAuNYiaWh1aX4HXXlxdIYeMyUia47LTI9tfEjy2oKv1yElWWng/132"
+gender:1
+language:"zh_CN"
+nickName:"Blue"
+
+------------------------------------------------------------------------------------------
+
+用户ID——同一个用户，在不同的小程序之间，ID不同
+unionID——让同一个用户，在一组小程序之间共享ID
+
+------------------------------------------------------------------------------------------
+
+后台完成：
+1.你的服务器->微信服务器
+https://api.weixin.qq.com/sns/jscode2session?appid=wxc675af7d7344d723&secret=f78fc7a5ef3d3ad36bba720b3176680b&js_code=061Ws8eB0eIjgg2Jh5dB0DY2eB0Ws8eW&grant_type=authorization_code
+{"session_key":"s2BxUlkTY9vfGY1RKxmZ6A==","openid":"o7G2l5NMKOjDeCe2ClQUxZqSuQ3E"}
+
+f78fc7a5ef3d3ad36bba720b3176680b
+
+------------------------------------------------------------------------------------------
+
+session_key——经常变
+openid——不变
+
+------------------------------------------------------------------------------------------
+
+1.技能深入——项目、作者、源码
+2.思想——计算机网络、操作系统原理、编译原理、数据结构、设计模式
+3.新方向——Python、AI、区块链
+
+------------------------------------------------------------------------------------------
