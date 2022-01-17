@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="d3.js" charset="utf-8"></script>
+    <script>
+    window.onload=function (){
+      let datas=[
+        {name: '1月', value: 2180},
+        {name: '2月', value: 1750},
+        {name: '3月', value: 968},
+        {name: '4月', value: 3560},
+      ];
+
+      //求和 -> 每个的数值
+      //创建generator
+      let line=d3.line()
+        .x(json=>parseInt(json.name)*50)
+        .y(json=>json.value/20);
+
+      //调用generator
+      let res=line(datas);
+
+      //显示
+      d3.select('body').append('svg')
+        .attr('width', 800)
+        .attr('height', 600)
+      .append('path')
+        .attr('d', res)
+        .attr('stroke', 'black')
+        .attr('fill', 'none');
+    };
+    </script>
+  </head>
+  <body>
+
+  </body>
+</html>
