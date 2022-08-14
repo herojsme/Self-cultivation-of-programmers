@@ -29,7 +29,7 @@ class MyFileReadStream extends EventEmitter{
 let rs = new MyFileReadStream('test.txt')
 
 rs.on('open', (fd) => {
-  console.log('open', fd)
+  console.log('open fd', fd)
 })
 
 rs.on('error', (err) => {

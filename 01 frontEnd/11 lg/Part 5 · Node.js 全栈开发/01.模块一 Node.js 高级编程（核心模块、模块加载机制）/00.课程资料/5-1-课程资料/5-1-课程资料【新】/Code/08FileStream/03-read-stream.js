@@ -1,21 +1,22 @@
 const fs = require('fs')
 const EventEmitter = require('events')
 
-class MyFileReadStream extends EventEmitter{
+class MyFileReadStream extends EventEmitter {
   constructor(path, options = {}) {
     super()
     this.path = path
     this.flags = options.flags || "r"
     this.mode = options.mode || 438
-    this.autoClose = options.autoClose || true 
+    this.autoClose = options.autoClose || true
     this.start = options.start || 0
-    this.end = options.end 
-    this.highWaterMark = options.highWaterMark || 64 * 1024 
+    this.end = options.end
+    this.highWaterMark = options.highWaterMark || 64 * 1024
     this.readOffset = 0
 
     this.open()
 
     this.on('newListener', (type) => {
+      console.log('type', type)
       if (type === 'data') {
         this.read()
       }
@@ -36,7 +37,7 @@ class MyFileReadStream extends EventEmitter{
       return this.once('open', this.read)
     }
 
-    let buf = Buffer.alloc(this.highWaterMark)
+    let buf = Buffer.alloc(8000)
 
     let howMuchToRead
     /* if (this.end) {
@@ -50,6 +51,7 @@ class MyFileReadStream extends EventEmitter{
     fs.read(this.fd, buf, 0, howMuchToRead, this.readOffset, (err, readBytes) => {
       if (readBytes) {
         this.readOffset += readBytes
+
         this.emit('data', buf.slice(0, readBytes))
         this.read()
       } else {
@@ -71,7 +73,7 @@ let rs = new MyFileReadStream('test.txt', {
 })
 
 rs.on('data', (chunk) => {
-  console.log(chunk)
+  console.log("data chunk", chunk, chunk.toString())
 })
 
 
