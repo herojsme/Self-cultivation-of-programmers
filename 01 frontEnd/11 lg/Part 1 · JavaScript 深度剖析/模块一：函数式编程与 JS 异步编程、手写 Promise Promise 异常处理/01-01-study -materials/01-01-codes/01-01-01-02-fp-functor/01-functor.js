@@ -1,3 +1,4 @@
+// https://github.com/shfshanyue/fp-jargon-zh#composable
 // // Functor 函子
 // class Container {
 //   constructor (value) {
