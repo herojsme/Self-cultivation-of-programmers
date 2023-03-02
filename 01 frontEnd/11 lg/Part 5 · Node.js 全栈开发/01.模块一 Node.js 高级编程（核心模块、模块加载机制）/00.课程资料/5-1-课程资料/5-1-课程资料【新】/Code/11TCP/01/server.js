@@ -16,7 +16,7 @@ server.on('listening', () => {
 server.on('connection', (socket) => {
   socket.on('data', (chunk) => {
     const msg = chunk.toString()
-    console.log(msg)
+    console.log("服务器收到：",msg)
 
     // 回数据
     socket.write(Buffer.from('您好' + msg))

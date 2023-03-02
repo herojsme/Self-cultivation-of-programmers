@@ -14,14 +14,16 @@ const server = http.createServer((req, res) => {
   })
   req.on('end', () => {
     let obj = Buffer.concat(arr).toString()
+    console.log("obj",obj)
     // console.log(Buffer.concat(arr).toString())
-    // console.log(req.headers['content-type'])
+    console.log(req.headers['content-type'])
     if (req.headers['content-type'] == 'application/json') {
       let a = JSON.parse(obj)
       a.add = '互联网人的大学'
       res.end(JSON.stringify(a))
     }else if(req.headers['content-type'] == 'application/x-www-form-urlencoded') {
       let ret = querystring.parse(obj)
+      ret.test = 'test'
       res.end(JSON.stringify(ret))
     }
   })

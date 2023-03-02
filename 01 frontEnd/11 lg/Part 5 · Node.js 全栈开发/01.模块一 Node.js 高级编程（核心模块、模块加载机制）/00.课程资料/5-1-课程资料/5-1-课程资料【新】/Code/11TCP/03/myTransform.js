@@ -14,8 +14,9 @@ class MyTransformCode{
 
     // 02 
     headerBuf.writeInt16BE(serialNum || this.serialNum)
-
+    // console.log("headerBuf_1",headerBuf)
     headerBuf.writeInt16BE(body.length, this.serialLen)
+    // console.log("headerBuf_2",headerBuf)
 
     if (serialNum == undefined) {
       serialNum++
@@ -28,6 +29,9 @@ class MyTransformCode{
   decode(buffer) {
     const headerBuf = buffer.slice(0, this.packageHeaderLen)
     const bodyBuf = buffer.slice(this.packageHeaderLen)
+    // console.log('decode headerBuf', headerBuf)
+    // console.log('decode headerBuf1', headerBuf.readInt16BE())
+    // console.log('decode headerBuf2', headerBuf.readInt16BE(2))
 
     return {
       serialNum: headerBuf.readInt16BE(),

@@ -2,23 +2,23 @@ const fs = require('fs')
 const EventsEmitter = require('events')
 const Queue = require('./linkedlist')
 
-class MyWriteStream extends EventsEmitter{
-  constructor(path, options={}) {
+class MyWriteStream extends EventsEmitter {
+  constructor(path, options = {}) {
     super()
     this.path = path
     this.flags = options.flags || 'w'
     this.mode = options.mode || 438
-    this.autoClose = options.autoClose || true 
+    this.autoClose = options.autoClose || true
     this.start = options.start || 0
     this.encoding = options.encoding || 'utf8'
-    this.highWaterMark = options.highWaterMark || 16*1024
+    this.highWaterMark = options.highWaterMark || 16 * 1024
 
     this.open()
 
-    this.writeoffset = this.start 
-    this.writing = false 
+    this.writeoffset = this.start
+    this.writing = false
     this.writeLen = 0
-    this.needDrain = false 
+    this.needDrain = false
     this.cache = new Queue()
   }
   open() {
@@ -28,7 +28,7 @@ class MyWriteStream extends EventsEmitter{
         this.emit('error', err)
       }
       // 正常打开文件
-      this.fd = fd 
+      this.fd = fd
       this.emit('open', fd)
     })
   }
@@ -41,21 +41,21 @@ class MyWriteStream extends EventsEmitter{
 
     if (this.writing) {
       // 当前正在执行写入，所以内容应该排队
-      this.cache.enQueue({chunk, encoding, cb})
+      this.cache.enQueue({ chunk, encoding, cb })
     } else {
       this.writing = true
-      // 当前不是正在写入那么就执行写入
+      // 写入第一个，执行完成按队列写入
       this._write(chunk, encoding, () => {
         cb()
-        // 清空排队的内容
-        this._clearBuffer()
+        // 依次执行排队的内容
+        this._queueWrite()
       })
     }
     return flag
   }
   _write(chunk, encoding, cb) {
     if (typeof this.fd !== 'number') {
-      return this.once('open', ()=>{return this._write(chunk, encoding, cb)})
+      return this.once('open', () => { return this._write(chunk, encoding, cb) })
     }
     fs.write(this.fd, chunk, this.start, chunk.length, this.writeoffset, (err, written) => {
       this.writeoffset += written
@@ -64,16 +64,17 @@ class MyWriteStream extends EventsEmitter{
       cb && cb()
     })
   }
-  _clearBuffer() {
-    let data = this.cache.deQueue()
+  _queueWrite() {
+    //删除第一个队列的内容，如果有值继续执行
+    let data = this.cache.deQueue(); 
     if (data) {
-      this._write(data.element.chunk, data.element.encoding, ()=>{
+      this._write(data.element.chunk, data.element.encoding, () => {
         data.element.cb && data.element.cb()
-        this._clearBuffer()
+        this._queueWrite()
       })
     } else {
       if (this.needDrain) {
-        this.needDrain = false 
+        this.needDrain = false
         this.emit('drain')
       }
     }
@@ -86,15 +87,15 @@ ws.on('open', (fd) => {
   console.log('open---->', fd)
 })
 
-let flag = ws.write('1', 'utf8', () => {
+ws.write('东南', 'utf8', () => {
   console.log('ok1')
 })
 
-flag = ws.write('10', 'utf8', () => {
-  console.log('ok1')
+flag = ws.write('西北', 'utf8', () => {
+  console.log('ok2')
 })
 
-flag = ws.write('拉勾教育', 'utf8', () => {
+ws.write('中发白', 'utf8', () => {
   console.log('ok3')
 })
 

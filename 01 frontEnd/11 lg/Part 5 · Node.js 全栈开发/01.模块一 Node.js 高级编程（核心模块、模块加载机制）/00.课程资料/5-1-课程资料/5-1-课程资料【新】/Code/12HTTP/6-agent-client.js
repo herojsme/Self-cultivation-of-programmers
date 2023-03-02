@@ -30,4 +30,4 @@ let req = http.request(options, (res) => {
 })
 // req.end('拉勾教育')
 // req.end('{"name":"lg"}')
-req.end('a=1&b=2')
+req.end('a=1&b=sfsdgjdg')

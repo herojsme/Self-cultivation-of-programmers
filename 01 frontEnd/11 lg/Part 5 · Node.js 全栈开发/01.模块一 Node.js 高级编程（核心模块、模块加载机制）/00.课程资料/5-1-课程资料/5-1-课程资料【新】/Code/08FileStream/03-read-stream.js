@@ -30,6 +30,7 @@ class MyFileReadStream extends EventEmitter {
       }
       this.fd = fd
       this.emit('open', fd)
+      this.read()
     })
   }
   read() {
@@ -48,6 +49,7 @@ class MyFileReadStream extends EventEmitter {
 
     howMuchToRead = this.end ? Math.min(this.end - this.readOffset + 1, this.highWaterMark) : this.highWaterMark
 
+    // fs.read(fd, buffer, offset, length, position, callback)
     fs.read(this.fd, buf, 0, howMuchToRead, this.readOffset, (err, readBytes) => {
       if (readBytes) {
         this.readOffset += readBytes
@@ -72,9 +74,9 @@ let rs = new MyFileReadStream('test.txt', {
   highWaterMark: 3
 })
 
-rs.on('data', (chunk) => {
-  console.log("data chunk", chunk, chunk.toString())
-})
+// rs.on('data', (chunk) => {
+//   console.log("data chunk", chunk, chunk.toString())
+// })
 
 
 
