@@ -16,10 +16,10 @@ server.on('listening', () => {
 server.on('connection', (socket) => {
   socket.on('data', (chunk) => {
     const msg = chunk.toString()
-    console.log(msg)
+    console.log("server receive from client,", msg)
 
     // 回数据
-    socket.write(Buffer.from('您好' + msg))
+    socket.write(Buffer.from('您好' + msg + "来自服务端的问候"))
   })
 })
 
@@ -28,9 +28,8 @@ server.on('close', () => {
 })
 
 server.on('error', (err) => {
+  console.log("server", err)
   if (err.code == 'EADDRINUSE') {
     console.log('地址正在被使用')
-  }else{
-    console.log(err)
   }
 })

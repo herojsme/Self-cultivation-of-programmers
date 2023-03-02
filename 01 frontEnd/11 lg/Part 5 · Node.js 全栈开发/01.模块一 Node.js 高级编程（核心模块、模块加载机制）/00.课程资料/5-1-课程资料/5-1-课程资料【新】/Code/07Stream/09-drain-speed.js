@@ -7,17 +7,17 @@
 let fs = require('fs')
 
 let ws = fs.createWriteStream('test.txt', {
-  highWaterMark: 3
+  highWaterMark: 2
 })
 
 // ws.write('拉勾教育')
-let source = "拉勾教育".split('')
+let source = "拉勾教育grohjtr".split('')
 let num = 0
 let flag = true
 
-function executeWrite () {
+function executeWrite() {
   flag = true
-  while(num !== 4 && flag) {
+  while (num !== 4 && flag) {
     flag = ws.write(source[num])
     num++
   }

@@ -8,19 +8,21 @@ let ws = fs.createWriteStream('test1.txt', {
   highWaterMark: 1
 })
 
-let flag = true
+// let flag = true
 
-/* rs.on('data', (chunk) => {
-  flag = ws.write(chunk, () => {
-    console.log('写完了')
-  })
-  if (!flag) {
-    rs.pause()
-  }
-})
+// rs.on('data', (chunk) => {
+//   flag = ws.write(chunk, () => {
+//     console.log('写完了')
+//   })
+//   console.log('flag', flag)
+//   if (!flag) {
+//     rs.pause()
+//   }
+// })
 
-ws.on('drain', () => {
-  rs.resume()
-}) */
+// ws.on('drain', () => {
+//   console.log('drain', )
+//   rs.resume()
+// })
 
 rs.pipe(ws)
