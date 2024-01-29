@@ -4,6 +4,7 @@
 //  Ramda may be freely distributed under the MIT license.
 
 (function (global, factory) {
+  console.log('global, factory', global, factory)
   typeof exports === "object" && typeof module !== "undefined"
     ? factory(exports)
     : typeof define === "function" && define.amd

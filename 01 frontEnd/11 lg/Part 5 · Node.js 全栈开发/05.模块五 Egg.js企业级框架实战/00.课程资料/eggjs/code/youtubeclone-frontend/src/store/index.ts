@@ -24,6 +24,12 @@ export const store = createStore<State>({
   }
 })
 
+//善良有锋芒
+//知在事上行
+//晦暗纳自身
+//
+
+
 // define your own `useStore` composition function
 export function useStore () {
   return baseUseStore(key)
