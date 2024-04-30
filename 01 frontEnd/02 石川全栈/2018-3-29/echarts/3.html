@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+    .box {width:800px; height:600px; border:1px solid black; margin:10px auto 0}
+    </style>
+    <script src="echarts.js" charset="utf-8"></script>
+    <script>
+    const $=document.querySelectorAll.bind(document);
+
+    window.onload=function (){
+      let oBox=$('.box')[0];
+
+      let option={
+        title: {
+          text: '北京人口比例',
+          subtext: '2017年度(单位: 万)'
+        },
+        series: [
+          {
+            name: '性别比例',
+            type: 'pie',
+            radius: '40%',
+            center: ['30%', '50%'],
+            data: [
+              {name: '男', value: 2750},
+              {name: '女', value: 2538},
+            ]
+          },
+          {
+            name: '年龄比例',
+            type: 'pie',
+            radius: '40%',
+            center: ['70%', '50%'],
+            data: [
+              {name: '18岁及更小', value: 876},
+              {name: '18~28岁', value: 1236},
+              {name: '28~38岁', value: 567},
+              {name: '38~50岁', value: 684},
+              {name: '50岁以上', value: 1350},
+            ]
+          }
+        ]
+      };
+
+      //1.创建
+      let chart=echarts.init(oBox);
+
+      //2.设置参数
+      chart.setOption(option);
+    };
+    </script>
+  </head>
+  <body>
+    <div class="box"></div>
+  </body>
+</html>

@@ -1,0 +1,3 @@
+<view class="pay_view">
+  <button bind:tap="fn_login">登录</button>
+</view>

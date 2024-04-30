@@ -61,9 +61,9 @@
  */
 
 (function (root, factory) {
-  if (typeof define === 'function' && define.amd) {
+  if (typeof define === "function" && define.amd) {
     define(factory);
-  } else if (typeof exports === 'object') {
+  } else if (typeof exports === "object") {
     module.exports = factory();
   } else {
     root.Lazy = factory();
@@ -107,16 +107,16 @@
   function Lazy(source) {
     if (isArray(source)) {
       return new ArrayWrapper(source);
-
     } else if (typeof source === "string") {
       return new StringWrapper(source);
-
     } else if (source instanceof Sequence) {
       return source;
     }
 
     if (Lazy.extensions) {
-      var extensions = Lazy.extensions, length = extensions.length, result;
+      var extensions = Lazy.extensions,
+        length = extensions.length,
+        result;
       while (!result && length--) {
         result = extensions[length](source);
       }
@@ -128,13 +128,17 @@
     return new ObjectWrapper(source);
   }
 
-  Lazy.VERSION = '0.5.1';
+  Lazy.VERSION = "0.5.1";
 
   /*** Utility methods of questionable value ***/
 
-  Lazy.noop = function noop() { };
-  Lazy.identity = function identity(x) { return x; };
-  Lazy.equality = function equality(x, y) { return x === y; };
+  Lazy.noop = function noop() {};
+  Lazy.identity = function identity(x) {
+    return x;
+  };
+  Lazy.equality = function equality(x, y) {
+    return x === y;
+  };
 
   /**
    * Provides a stricter version of {@link Lazy} which throws an error when
@@ -170,7 +174,7 @@
       }
 
       return Lazy(source);
-    };
+    }
 
     Lazy(Lazy).each(function (property, name) {
       StrictLazy[name] = property;
@@ -252,7 +256,7 @@
    * @public
    * @constructor
    */
-  function Sequence() { }
+  function Sequence() {}
 
   /**
    * Create a new constructor function for a type inheriting from `Sequence`.
@@ -290,7 +294,9 @@
    */
   Sequence.define = function define(methodName, overrides) {
     if (!overrides || (!overrides.getIterator && !overrides.each)) {
-      throw new Error("A custom sequence must implement *at least* getIterator or each!");
+      throw new Error(
+        "A custom sequence must implement *at least* getIterator or each!"
+      );
     }
 
     return defineSequenceType(Sequence, methodName, overrides);
@@ -632,14 +638,6 @@
         return false;
       }
     }
-    // 有序联系，不等于简单堆叠，联系中有一定规律。  
-    // 层次：上下之分，层级划分
-    // 系统的结构：结构有稳定性，有一定修复能力；结构点的争夺，利害争合；
-    // 系统的联系：正负反馈，通过信息输入能协调各部件的联系；关系的变更
-    // 系统的边界：无形底层的制约，上层制约、下层限制；越过边界，消亡、变换系统、成为更大的系统
-    // 系统与外界的交换：物质、信息  真假信息交换，强化削弱要素，更改联系，更改功能；延迟
-    // 系统的演化：系统间的竞争；同属统一环境的趋同，相似；分工协同；当个体得到集体响应，会放大影响，造成涨落有序；
-    // 上层决定实际高度、下层决定理论可能高度、稳定修复、相互关联、边界陷阱、反馈增强、物竞天择、协同合作、
 
     return true;
   };
@@ -887,7 +885,9 @@
    */
   Sequence.prototype.reject = function reject(rejectFn) {
     rejectFn = createCallback(rejectFn);
-    return this.filter(function (e) { return !rejectFn(e); });
+    return this.filter(function (e) {
+      return !rejectFn(e);
+    });
   };
 
   /**
@@ -906,7 +906,9 @@
    * Lazy([1, 2, 'foo', 'bar']).ofType('boolean') // sequence: []
    */
   Sequence.prototype.ofType = function ofType(type) {
-    return this.filter(function (e) { return typeof e === type; });
+    return this.filter(function (e) {
+      return typeof e === type;
+    });
   };
 
   /**
@@ -986,7 +988,7 @@
       this.index = length;
     }
 
-    return (--this.index >= 0);
+    return --this.index >= 0;
   };
 
   ReversedIterator.prototype.getIndex = function getIndex() {
@@ -1042,11 +1044,13 @@
     });
 
     if (!done) {
-      Lazy(this.arrays).flatten(true).each(function (e) {
-        if (fn(e, i++) === false) {
-          return false;
-        }
-      });
+      Lazy(this.arrays)
+        .flatten(true)
+        .each(function (e) {
+          if (fn(e, i++) === false) {
+            return false;
+          }
+        });
     }
   };
 
@@ -1079,10 +1083,9 @@
     return new TakeSequence(this, count);
   };
 
-  Sequence.prototype.head =
-    Sequence.prototype.take = function (count) {
-      return this.first(count);
-    };
+  Sequence.prototype.head = Sequence.prototype.take = function (count) {
+    return this.first(count);
+  };
 
   /**
    * @constructor
@@ -1104,8 +1107,12 @@
 
     var result;
     var handle = this.parent.each(function (e) {
-      if (i < count) { result = fn(e, i++); }
-      if (i >= count) { return false; }
+      if (i < count) {
+        result = fn(e, i++);
+      }
+      if (i >= count) {
+        return false;
+      }
       return result;
     });
 
@@ -1129,7 +1136,7 @@
   };
 
   TakeIterator.prototype.moveNext = function moveNext() {
-    return ((--this.count >= 0) && this.iterator.moveNext());
+    return --this.count >= 0 && this.iterator.moveNext();
   };
 
   /**
@@ -1280,9 +1287,10 @@
 
   Sequence.prototype.skip =
     Sequence.prototype.tail =
-    Sequence.prototype.drop = function drop(count) {
-      return this.rest(count);
-    };
+    Sequence.prototype.drop =
+      function drop(count) {
+        return this.rest(count);
+      };
 
   /**
    * @constructor
@@ -1300,7 +1308,9 @@
       i = 0;
 
     return this.parent.each(function (e) {
-      if (dropped++ < count) { return; }
+      if (dropped++ < count) {
+        return;
+      }
       return fn(e, i++);
     });
   };
@@ -1385,7 +1395,9 @@
    */
   Sequence.prototype.sort = function sort(sortFn, descending) {
     sortFn || (sortFn = compare);
-    if (descending) { sortFn = reverseArguments(sortFn); }
+    if (descending) {
+      sortFn = reverseArguments(sortFn);
+    }
     return new SortedSequence(this, sortFn);
   };
 
@@ -1435,7 +1447,9 @@
    */
   Sequence.prototype.sortBy = function sortBy(sortFn, descending) {
     sortFn = createComparator(sortFn);
-    if (descending) { sortFn = reverseArguments(sortFn); }
+    if (descending) {
+      sortFn = reverseArguments(sortFn);
+    }
     return new SortedSequence(this, sortFn);
   };
 
@@ -1621,8 +1635,8 @@
    *
    * @examples
    * Lazy([1, 2, 2, 3, 3, 3]).uniq() // sequence: [1, 2, 3]
-   * Lazy([{ name: 'mike' }, 
-   * 	{ name: 'sarah' }, 
+   * Lazy([{ name: 'mike' },
+   * 	{ name: 'sarah' },
    * 	{ name: 'mike' }
    * ]).uniq('name')
    * // sequence: [{ name: 'mike' }, { name: 'sarah' }]
@@ -1675,7 +1689,6 @@
           return fn(e, i++);
         }
       });
-
     } else {
       return this.parent.each(function (e) {
         if (cache.add(e)) {
@@ -1715,7 +1728,7 @@
    */
   Sequence.prototype.zip = function zip(var_args) {
     if (arguments.length === 1) {
-      return new SimpleZippedSequence(this, (/** @type {Array} */ var_args));
+      return new SimpleZippedSequence(this, /** @type {Array} */ var_args);
     } else {
       return new ZippedSequence(this, arraySlice.call(arguments, 0));
     }
@@ -1762,7 +1775,7 @@
         }
       }
 
-      if (keepGoing && (fn(group, i++) === false)) {
+      if (keepGoing && fn(group, i++) === false) {
         return false;
       }
     }
@@ -1892,7 +1905,9 @@
    * Lazy(["foo", null, "bar", undefined]).compact() // sequence: ["foo", "bar"]
    */
   Sequence.prototype.compact = function compact() {
-    return this.filter(function (e) { return !!e; });
+    return this.filter(function (e) {
+      return !!e;
+    });
   };
 
   /**
@@ -1973,7 +1988,10 @@
    */
   Sequence.prototype.intersection = function intersection(var_args) {
     if (arguments.length === 1 && isArray(arguments[0])) {
-      return new SimpleIntersectionSequence(this, (/** @type {Array} */ var_args));
+      return new SimpleIntersectionSequence(
+        this,
+        /** @type {Array} */ var_args
+      );
     } else {
       return new IntersectionSequence(this, arraySlice.call(arguments, 0));
     }
@@ -2368,16 +2386,20 @@
 
     // TODO: Think of a way more efficient solution to this problem.
     if (eachResult instanceof AsyncHandle) {
-      return eachResult.then(function () { return memo; });
+      return eachResult.then(function () {
+        return memo;
+      });
     }
 
     return memo;
   };
 
-  Sequence.prototype.inject =
-    Sequence.prototype.foldl = function foldl(aggregator, memo) {
-      return this.reduce(aggregator, memo);
-    };
+  Sequence.prototype.inject = Sequence.prototype.foldl = function foldl(
+    aggregator,
+    memo
+  ) {
+    return this.reduce(aggregator, memo);
+  };
 
   /**
    * Aggregates a sequence, from the tail, into a single value according to some
@@ -2633,7 +2655,9 @@
 
   Sequence.prototype.minBy = function minBy(valueFn) {
     valueFn = createCallback(valueFn);
-    return this.reduce(function (x, y) { return valueFn(y) < valueFn(x) ? y : x; });
+    return this.reduce(function (x, y) {
+      return valueFn(y) < valueFn(x) ? y : x;
+    });
   };
 
   /**
@@ -2673,7 +2697,9 @@
 
   Sequence.prototype.maxBy = function maxBy(valueFn) {
     valueFn = createCallback(valueFn);
-    return this.reduce(function (x, y) { return valueFn(y) > valueFn(x) ? y : x; });
+    return this.reduce(function (x, y) {
+      return valueFn(y) > valueFn(x) ? y : x;
+    });
   };
 
   /**
@@ -2695,12 +2721,16 @@
       return this.sumBy(valueFn);
     }
 
-    return this.reduce(function (x, y) { return x + y; }, 0);
+    return this.reduce(function (x, y) {
+      return x + y;
+    }, 0);
   };
 
   Sequence.prototype.sumBy = function sumBy(valueFn) {
     valueFn = createCallback(valueFn);
-    return this.reduce(function (x, y) { return x + valueFn(y); }, 0);
+    return this.reduce(function (x, y) {
+      return x + valueFn(y);
+    }, 0);
   };
 
   /**
@@ -2774,18 +2804,21 @@
 
   SimpleIntersectionSequence.prototype = Object.create(Sequence.prototype);
 
-  SimpleIntersectionSequence.prototype.eachMemoizerCache = function eachMemoizerCache(fn) {
-    var iterator = new UniqueMemoizer(Lazy(this.array).getIterator()),
-      i = 0;
+  SimpleIntersectionSequence.prototype.eachMemoizerCache =
+    function eachMemoizerCache(fn) {
+      var iterator = new UniqueMemoizer(Lazy(this.array).getIterator()),
+        i = 0;
 
-    return this.parent.uniq().each(function (e) {
-      if (iterator.contains(e)) {
-        return fn(e, i++);
-      }
-    });
-  };
+      return this.parent.uniq().each(function (e) {
+        if (iterator.contains(e)) {
+          return fn(e, i++);
+        }
+      });
+    };
 
-  SimpleIntersectionSequence.prototype.eachArrayCache = function eachArrayCache(fn) {
+  SimpleIntersectionSequence.prototype.eachArrayCache = function eachArrayCache(
+    fn
+  ) {
     var array = this.array,
       find = arrayContains,
       i = 0;
@@ -2939,7 +2972,7 @@
    * Lazy([1, 2, 3]).reverse()          // instanceof Lazy.ArrayLikeSequence
    * Lazy([1, 2, 3]).slice(1, 2)        // instanceof Lazy.ArrayLikeSequence
    */
-  function ArrayLikeSequence() { }
+  function ArrayLikeSequence() {}
 
   ArrayLikeSequence.prototype = Object.create(Sequence.prototype);
 
@@ -2973,8 +3006,10 @@
    * Lazy([1, 2, 3]).offset(1) // sequence: [2, 3, 1]
    */
   ArrayLikeSequence.define = function define(methodName, overrides) {
-    if (!overrides || typeof overrides.get !== 'function') {
-      throw new Error("A custom array-like sequence must implement *at least* get!");
+    if (!overrides || typeof overrides.get !== "function") {
+      throw new Error(
+        "A custom array-like sequence must implement *at least* get!"
+      );
     }
 
     return defineSequenceType(ArrayLikeSequence, methodName, overrides);
@@ -3253,7 +3288,9 @@
     this.parent = parent;
   }
 
-  IndexedReversedSequence.prototype = Object.create(ArrayLikeSequence.prototype);
+  IndexedReversedSequence.prototype = Object.create(
+    ArrayLikeSequence.prototype
+  );
 
   IndexedReversedSequence.prototype.get = function get(i) {
     return this.parent.get(this.length() - i - 1);
@@ -3336,7 +3373,10 @@
    */
   ArrayLikeSequence.prototype.concat = function concat(var_args) {
     if (arguments.length === 1 && isArray(arguments[0])) {
-      return new IndexedConcatenatedSequence(this, (/** @type {Array} */ var_args));
+      return new IndexedConcatenatedSequence(
+        this,
+        /** @type {Array} */ var_args
+      );
     } else {
       return Sequence.prototype.concat.apply(this, arguments);
     }
@@ -3350,7 +3390,9 @@
     this.other = other;
   }
 
-  IndexedConcatenatedSequence.prototype = Object.create(ArrayLikeSequence.prototype);
+  IndexedConcatenatedSequence.prototype = Object.create(
+    ArrayLikeSequence.prototype
+  );
 
   IndexedConcatenatedSequence.prototype.get = function get(i) {
     var parentLength = this.parent.length();
@@ -3392,7 +3434,8 @@
       length = parent.length(),
       cache = [],
       find = arrayContains,
-      key, value,
+      key,
+      value,
       i = -1,
       j = 0;
 
@@ -3567,7 +3610,7 @@
    */
   ArrayWrapper.prototype.concat = function concat(var_args) {
     if (arguments.length === 1 && isArray(arguments[0])) {
-      return new ConcatArrayWrapper(this, (/** @type {Array} */ var_args));
+      return new ConcatArrayWrapper(this, /** @type {Array} */ var_args);
     } else {
       return ArrayLikeSequence.prototype.concat.apply(this, arguments);
     }
@@ -3664,7 +3707,6 @@
       length = source.length,
       find = arrayContainsBefore,
       value,
-
       // Yes, this is hideous.
       // Trying to get performance first, will refactor next!
       i = -1,
@@ -3688,7 +3730,8 @@
       length = source.length,
       cache = [],
       find = arrayContains,
-      key, value,
+      key,
+      value,
       i = -1,
       j = 0;
 
@@ -3704,7 +3747,6 @@
           }
         }
       }
-
     } else {
       while (++i < length) {
         value = source[i];
@@ -3808,7 +3850,7 @@
    * Lazy(obj).defaults({ bar: 'baz' }) // instanceof Lazy.ObjectLikeSequence
    * Lazy(obj).invert()                 // instanceof Lazy.ObjectLikeSequence
    */
-  function ObjectLikeSequence() { }
+  function ObjectLikeSequence() {}
 
   ObjectLikeSequence.prototype = Object.create(Sequence.prototype);
 
@@ -3854,8 +3896,10 @@
    * Lazy({ FOO: 'bar' }).caseInsensitive().get('FOO') // => 'bar'
    */
   ObjectLikeSequence.define = function define(methodName, overrides) {
-    if (!overrides || typeof overrides.each !== 'function') {
-      throw new Error("A custom object-like sequence must implement *at least* each!");
+    if (!overrides || typeof overrides.each !== "function") {
+      throw new Error(
+        "A custom object-like sequence must implement *at least* each!"
+      );
     }
 
     return defineSequenceType(ObjectLikeSequence, methodName, overrides);
@@ -3958,7 +4002,9 @@
    * Lazy({ foo: 'bar' }).async() // throws
    */
   ObjectLikeSequence.prototype.async = function async() {
-    throw new Error('An ObjectLikeSequence does not support asynchronous iteration.');
+    throw new Error(
+      "An ObjectLikeSequence does not support asynchronous iteration."
+    );
   };
 
   ObjectLikeSequence.prototype.filter = function filter(filterFn) {
@@ -3970,7 +4016,9 @@
     this.filterFn = filterFn;
   }
 
-  FilteredObjectLikeSequence.prototype = Object.create(ObjectLikeSequence.prototype);
+  FilteredObjectLikeSequence.prototype = Object.create(
+    ObjectLikeSequence.prototype
+  );
 
   FilteredObjectLikeSequence.prototype.each = function each(fn) {
     var filterFn = this.filterFn;
@@ -4221,8 +4269,11 @@
    * Lazy({ foo: [{ bar: 1 }] }).merge({ foo: [{ baz: 2 }] }); // => sequence: { foo: [{ bar: 1, baz: 2}] }
    */
   ObjectLikeSequence.prototype.merge = function merge(var_args) {
-    var mergeFn = arguments.length > 1 && typeof arguments[arguments.length - 1] === "function" ?
-      arrayPop.call(arguments) : null;
+    var mergeFn =
+      arguments.length > 1 &&
+      typeof arguments[arguments.length - 1] === "function"
+        ? arrayPop.call(arguments)
+        : null;
     return new MergedSequence(this, arraySlice.call(arguments, 0), mergeFn);
   };
 
@@ -4287,7 +4338,7 @@
   function mergeObjects(a, b) {
     var merged, prop;
 
-    if (typeof b === 'undefined') {
+    if (typeof b === "undefined") {
       return a;
     }
 
@@ -4345,9 +4396,11 @@
    * Lazy(dog).functions() // sequence: ["bark", "wagTail"]
    */
   ObjectLikeSequence.prototype.functions = function functions() {
-    return this
-      .filter(function (v, k) { return typeof (v) === "function"; })
-      .map(function (v, k) { return k; });
+    return this.filter(function (v, k) {
+      return typeof v === "function";
+    }).map(function (v, k) {
+      return k;
+    });
   };
 
   ObjectLikeSequence.prototype.methods = function methods() {
@@ -4387,7 +4440,9 @@
   PickSequence.prototype = Object.create(ObjectLikeSequence.prototype);
 
   PickSequence.prototype.get = function get(key) {
-    return arrayContains(this.properties, key) ? this.parent.get(key) : undefined;
+    return arrayContains(this.properties, key)
+      ? this.parent.get(key)
+      : undefined;
   };
 
   PickSequence.prototype.each = function each(fn) {
@@ -4438,7 +4493,9 @@
   OmitSequence.prototype = Object.create(ObjectLikeSequence.prototype);
 
   OmitSequence.prototype.get = function get(key) {
-    return arrayContains(this.properties, key) ? undefined : this.parent.get(key);
+    return arrayContains(this.properties, key)
+      ? undefined
+      : this.parent.get(key);
   };
 
   OmitSequence.prototype.each = function each(fn) {
@@ -4469,7 +4526,9 @@
    * Lazy(colorCodes).pairs() // sequence: [["red", "#f00"], ["green", "#0f0"], ["blue", "#00f"]]
    */
   ObjectLikeSequence.prototype.pairs = function pairs() {
-    return this.map(function (v, k) { return [k, v]; });
+    return this.map(function (v, k) {
+      return [k, v];
+    });
   };
 
   /**
@@ -4626,7 +4685,7 @@
    * changes; // => [{ property: 'foo', value: 1 }, { property: 'foo', value: 3 }]
    */
   ObjectLikeSequence.prototype.watch = function watch(propertyNames) {
-    throw new Error('You can only call #watch on a directly wrapped object.');
+    throw new Error("You can only call #watch on a directly wrapped object.");
   };
 
   /**
@@ -4697,7 +4756,7 @@
    * Lazy('foo').map(Lazy.identity)       // instanceof Lazy.ArrayLikeSequence
    * Lazy('foo').mapString(Lazy.identity) // instanceof Lazy.StringLikeSequence
    */
-  function StringLikeSequence() { }
+  function StringLikeSequence() {}
 
   StringLikeSequence.prototype = Object.create(ArrayLikeSequence.prototype);
 
@@ -4733,8 +4792,10 @@
    * Lazy('foo').zomg() // sequence: "foo!!ZOMG!!!1"
    */
   StringLikeSequence.define = function define(methodName, overrides) {
-    if (!overrides || typeof overrides.get !== 'function') {
-      throw new Error("A custom string-like sequence must implement *at least* get!");
+    if (!overrides || typeof overrides.get !== "function") {
+      throw new Error(
+        "A custom string-like sequence must implement *at least* get!"
+      );
     }
 
     return defineSequenceType(StringLikeSequence, methodName, overrides);
@@ -4767,7 +4828,7 @@
   };
 
   CharIterator.prototype.moveNext = function moveNext() {
-    return (++this.index < this.source.length());
+    return ++this.index < this.source.length();
   };
 
   /**
@@ -4802,7 +4863,9 @@
    */
   StringLikeSequence.prototype.charCodeAt = function charCodeAt(i) {
     var char = this.charAt(i);
-    if (!char) { return NaN; }
+    if (!char) {
+      return NaN;
+    }
 
     return char.charCodeAt(0);
   };
@@ -4845,7 +4908,10 @@
   };
 
   StringSegment.prototype.length = function length() {
-    return (typeof this.stop === "number" ? this.stop : this.parent.length()) - this.start;
+    return (
+      (typeof this.stop === "number" ? this.stop : this.parent.length()) -
+      this.start
+    );
   };
 
   /**
@@ -4912,7 +4978,10 @@
    * Lazy('canal').indexOf('andy') // => -1
    * Lazy('canal').indexOf('x')    // => -1
    */
-  StringLikeSequence.prototype.indexOf = function indexOf(substring, startIndex) {
+  StringLikeSequence.prototype.indexOf = function indexOf(
+    substring,
+    startIndex
+  ) {
     return this.toString().indexOf(substring, startIndex);
   };
 
@@ -4934,7 +5003,10 @@
    * Lazy('canal').lastIndexOf('andy') // => -1
    * Lazy('canal').lastIndexOf('x')    // => -1
    */
-  StringLikeSequence.prototype.lastIndexOf = function lastIndexOf(substring, startIndex) {
+  StringLikeSequence.prototype.lastIndexOf = function lastIndexOf(
+    substring,
+    startIndex
+  ) {
     return this.toString().lastIndexOf(substring, startIndex);
   };
 
@@ -5003,7 +5075,9 @@
    * Lazy('abc').mapString(nextLetter).toUpperCase() // sequence: 'BCD'
    */
   StringLikeSequence.prototype.toUpperCase = function toUpperCase() {
-    return this.mapString(function (char) { return char.toUpperCase(); });
+    return this.mapString(function (char) {
+      return char.toUpperCase();
+    });
   };
 
   /**
@@ -5023,7 +5097,9 @@
    * Lazy('ABC').mapString(nextLetter).toLowerCase() // sequence: 'bcd'
    */
   StringLikeSequence.prototype.toLowerCase = function toLowerCase() {
-    return this.mapString(function (char) { return char.toLowerCase(); });
+    return this.mapString(function (char) {
+      return char.toLowerCase();
+    });
   };
 
   /**
@@ -5054,9 +5130,12 @@
     this.mapFn = mapFn;
   }
 
-  MappedStringLikeSequence.prototype = Object.create(StringLikeSequence.prototype);
+  MappedStringLikeSequence.prototype = Object.create(
+    StringLikeSequence.prototype
+  );
   MappedStringLikeSequence.prototype.get = IndexedMappedSequence.prototype.get;
-  MappedStringLikeSequence.prototype.length = IndexedMappedSequence.prototype.length;
+  MappedStringLikeSequence.prototype.length =
+    IndexedMappedSequence.prototype.length;
 
   /**
    * Returns a copy of this sequence that reads back to front.
@@ -5077,9 +5156,13 @@
     this.parent = parent;
   }
 
-  ReversedStringLikeSequence.prototype = Object.create(StringLikeSequence.prototype);
-  ReversedStringLikeSequence.prototype.get = IndexedReversedSequence.prototype.get;
-  ReversedStringLikeSequence.prototype.length = IndexedReversedSequence.prototype.length;
+  ReversedStringLikeSequence.prototype = Object.create(
+    StringLikeSequence.prototype
+  );
+  ReversedStringLikeSequence.prototype.get =
+    IndexedReversedSequence.prototype.get;
+  ReversedStringLikeSequence.prototype.length =
+    IndexedReversedSequence.prototype.length;
 
   StringLikeSequence.prototype.toString = function toString() {
     return this.join("");
@@ -5202,7 +5285,6 @@
       this.end = match.index;
       this.nextStart = match.index + match[0].length;
       return true;
-
     } else if (this.pattern) {
       this.start = this.nextStart;
       this.end = undefined;
@@ -5228,9 +5310,10 @@
 
   SplitWithStringIterator.prototype.moveNext = function moveNext() {
     if (!this.finished) {
-      this.leftIndex = typeof this.leftIndex !== "undefined" ?
-        this.rightIndex + this.delimiter.length :
-        0;
+      this.leftIndex =
+        typeof this.leftIndex !== "undefined"
+          ? this.rightIndex + this.delimiter.length
+          : 0;
       this.rightIndex = this.source.indexOf(this.delimiter, this.leftIndex);
     }
 
@@ -5362,7 +5445,10 @@
   GeneratedIterator.prototype.moveNext = function moveNext() {
     var sequence = this.sequence;
 
-    if (typeof sequence.fixedLength === "number" && this.index >= sequence.fixedLength) {
+    if (
+      typeof sequence.fixedLength === "number" &&
+      this.index >= sequence.fixedLength
+    ) {
       return false;
     }
 
@@ -5445,7 +5531,7 @@
    * Lazy([1, 2, 3]).async().getIterator() // throws
    */
   AsyncSequence.prototype.getIterator = function getIterator() {
-    throw new Error('An AsyncSequence does not support synchronous iteration.');
+    throw new Error("An AsyncSequence does not support synchronous iteration.");
   };
 
   /**
@@ -5477,11 +5563,9 @@
       try {
         if (iterator.moveNext() && fn(iterator.current(), i++) !== false) {
           cancellationId = onNextCallback(iterate);
-
         } else {
           handle._resolve();
         }
-
       } catch (e) {
         handle._reject(e);
       }
@@ -5547,13 +5631,12 @@
 
     this.resolveListeners.push(function (value) {
       try {
-        if (typeof onFulfilled !== 'function') {
+        if (typeof onFulfilled !== "function") {
           resolve(promise, value);
           return;
         }
 
         resolve(promise, onFulfilled(value));
-
       } catch (e) {
         promise._reject(e);
       }
@@ -5561,13 +5644,12 @@
 
     this.rejectListeners.push(function (reason) {
       try {
-        if (typeof onRejected !== 'function') {
+        if (typeof onRejected !== "function") {
           promise._reject(reason);
           return;
         }
 
         resolve(promise, onRejected(reason));
-
       } catch (e) {
         promise._reject(e);
       }
@@ -5656,28 +5738,32 @@
    */
   function resolve(promise, x) {
     if (promise === x) {
-      promise._reject(new TypeError('Cannot resolve a promise to itself'));
+      promise._reject(new TypeError("Cannot resolve a promise to itself"));
       return;
     }
 
     if (x instanceof AsyncHandle) {
       x.then(
-        function (value) { resolve(promise, value); },
-        function (reason) { promise._reject(reason); }
+        function (value) {
+          resolve(promise, value);
+        },
+        function (reason) {
+          promise._reject(reason);
+        }
       );
       return;
     }
 
     var then;
     try {
-      then = (/function|object/).test(typeof x) && x != null && x.then;
+      then = /function|object/.test(typeof x) && x != null && x.then;
     } catch (e) {
       promise._reject(e);
       return;
     }
 
     var thenableState = PENDING;
-    if (typeof then === 'function') {
+    if (typeof then === "function") {
       try {
         then.call(
           x,
@@ -5756,7 +5842,9 @@
    */
   function transform(fn, value) {
     if (value instanceof AsyncHandle) {
-      return value.then(function () { fn(value); });
+      return value.then(function () {
+        fn(value);
+      });
     }
     return fn(value);
   }
@@ -5787,7 +5875,9 @@
       }
     });
 
-    return handle.then(function () { return found; });
+    return handle.then(function () {
+      return found;
+    });
   };
 
   /**
@@ -5872,13 +5962,16 @@
 
         set: function (value) {
           for (var i = listeners.length - 1; i >= 0; --i) {
-            if (listeners[i]({ property: propertyName, value: value }, index) === false) {
+            if (
+              listeners[i]({ property: propertyName, value: value }, index) ===
+              false
+            ) {
               listeners.splice(i, 1);
             }
           }
           propertyValue = value;
           ++index;
-        }
+        },
       });
     });
   }
@@ -5895,7 +5988,7 @@
    *
    * @constructor
    */
-  function StreamLikeSequence() { }
+  function StreamLikeSequence() {}
 
   StreamLikeSequence.prototype = Object.create(AsyncSequence.prototype);
 
@@ -5918,25 +6011,27 @@
 
   SplitStreamSequence.prototype = Object.create(Sequence.prototype);
 
-  SplitStreamSequence.prototype.getEachForDelimiter = function getEachForDelimiter(delimiter) {
-    if (delimiter instanceof RegExp) {
-      return this.regexEach;
-    }
+  SplitStreamSequence.prototype.getEachForDelimiter =
+    function getEachForDelimiter(delimiter) {
+      if (delimiter instanceof RegExp) {
+        return this.regexEach;
+      }
 
-    return this.stringEach;
-  };
+      return this.stringEach;
+    };
 
   SplitStreamSequence.prototype.regexEach = function each(fn) {
     var delimiter = cloneRegex(this.delimiter),
-      buffer = '',
-      start = 0, end,
+      buffer = "",
+      start = 0,
+      end,
       index = 0;
 
     var handle = this.parent.each(function (chunk) {
       buffer += chunk;
 
       var match;
-      while (match = delimiter.exec(buffer)) {
+      while ((match = delimiter.exec(buffer))) {
         end = match.index;
         if (fn(buffer.substring(start, end), index++) === false) {
           return false;
@@ -5960,7 +6055,7 @@
   SplitStreamSequence.prototype.stringEach = function each(fn) {
     var delimiter = this.delimiter,
       pieceIndex = 0,
-      buffer = '',
+      buffer = "",
       bufferIndex = 0;
 
     var handle = this.parent.each(function (chunk) {
@@ -6007,12 +6102,14 @@
       i = 0;
 
     return this.parent.each(function (chunk) {
-      Lazy(chunk).match(pattern).each(function (match) {
-        if (fn(match, i++) === false) {
-          done = true;
-          return false;
-        }
-      });
+      Lazy(chunk)
+        .match(pattern)
+        .each(function (match) {
+          if (fn(match, i++) === false) {
+            done = true;
+            return false;
+          }
+        });
 
       return !done;
     });
@@ -6151,8 +6248,9 @@
       return Lazy([]);
     }
 
-    return Lazy.generate(function (i) { return start + (step * i); })
-      .take(Math.ceil((stop - start) / step));
+    return Lazy.generate(function (i) {
+      return start + step * i;
+    }).take(Math.ceil((stop - start) / step));
   };
 
   /**
@@ -6172,7 +6270,9 @@
    * Lazy.repeat("young").take(3)  // sequence: ["young", "young", "young"]
    */
   Lazy.repeat = function repeat(value, count) {
-    return Lazy.generate(function () { return value; }, count);
+    return Lazy.generate(function () {
+      return value;
+    }, count);
   };
 
   Lazy.Sequence = Sequence;
@@ -6215,7 +6315,11 @@
     };
   };
 
-  var isArray = Array.isArray || function (x) { return x instanceof Array; },
+  var isArray =
+      Array.isArray ||
+      function (x) {
+        return x instanceof Array;
+      },
     arrayPop = Array.prototype.pop,
     arraySlice = Array.prototype.slice;
 
@@ -6324,12 +6428,16 @@
         };
 
       case "undefined":
-        return defaultValue ?
-          function () { return defaultValue; } :
-          Lazy.identity;
+        return defaultValue
+          ? function () {
+              return defaultValue;
+            }
+          : Lazy.identity;
 
       default:
-        throw new Error("Don't know how to make a callback from a " + typeof callback + "!");
+        throw new Error(
+          "Don't know how to make a callback from a " + typeof callback + "!"
+        );
     }
   }
 
@@ -6354,7 +6462,9 @@
    * Lazy.createComparator()(3, 3);                        // => 0
    */
   function createComparator(callback) {
-    if (!callback) { return compare; }
+    if (!callback) {
+      return compare;
+    }
 
     callback = createCallback(callback);
 
@@ -6378,7 +6488,9 @@
    * reverseArguments(function(x, y) { return x + y; })('a', 'b'); // => 'ba'
    */
   function reverseArguments(fn) {
-    return function (x, y) { return fn(y, x); };
+    return function (x, y) {
+      return fn(y, x);
+    };
   }
 
   /**
@@ -6390,9 +6502,11 @@
    */
   function createSet(values) {
     var set = new Set();
-    Lazy(values || []).flatten().each(function (e) {
-      set.add(e);
-    });
+    Lazy(values || [])
+      .flatten()
+      .each(function (e) {
+        set.add(e);
+      });
     return set;
   }
 
@@ -6509,7 +6623,6 @@
           return true;
         }
       }
-
     } else {
       while (++i < index) {
         if (array[i] === element) {
@@ -6549,7 +6662,7 @@
    */
   function cloneRegex(pattern) {
     return eval("" + pattern + (!pattern.global ? "g" : ""));
-  };
+  }
 
   /**
    * A collection of unique elements.
@@ -6613,10 +6726,8 @@
   Set.prototype.add = function add(value) {
     var table = this.table,
       type = typeof value,
-
       // only applies for strings
       firstChar,
-
       // only applies for objects
       objects;
 
@@ -6681,7 +6792,6 @@
    */
   Set.prototype.contains = function contains(value) {
     var type = typeof value,
-
       // only applies for strings
       firstChar;
 
@@ -6783,7 +6893,6 @@
     if (this.count === capacity) {
       contents[start] = element;
       this.start = (start + 1) % capacity;
-
     } else {
       contents[this.count++] = element;
     }
@@ -6812,7 +6921,7 @@
    */
   function defineSequenceType(base, name, overrides) {
     /** @constructor */
-    var ctor = function ctor() { };
+    var ctor = function ctor() {};
 
     // Make this type inherit from the specified base.
     ctor.prototype = new base();
@@ -6840,7 +6949,7 @@
       return sequence;
     };
 
-    var methodNames = typeof name === 'string' ? [name] : name;
+    var methodNames = typeof name === "string" ? [name] : name;
     for (var i = 0; i < methodNames.length; ++i) {
       base.prototype[methodNames[i]] = factory;
     }

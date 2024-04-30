@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="d3.js" charset="utf-8"></script>
+    <script>
+    window.onload=function (){
+      let ev=d3.dispatch('msg', 'xxx');
+
+      ev.on('msg', (a,b,c)=>{
+        console.log('事件被触发了', a, b, c);
+      });
+
+      ev.call('msg', 5, 1, 2, 3);
+    };
+    </script>
+  </head>
+  <body>
+
+  </body>
+</html>
