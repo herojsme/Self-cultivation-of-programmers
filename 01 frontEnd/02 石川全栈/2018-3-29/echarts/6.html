@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+    .box {width:1000px; height:600px; border:1px solid black; margin:10px auto 0}
+    .box .left, .box .right {width:50%; height:100%; float: left}
+    </style>
+    <script src="echarts.js" charset="utf-8"></script>
+    <script>
+    const $=document.querySelectorAll.bind(document);
+
+    window.onload=function (){
+      let oLeft=$('.left')[0];
+      let oRight=$('.right')[0];
+
+      let datas=[
+        {
+          name: '湖南',
+          value: 1675,
+          citys: [
+            {name: '长沙', value: 816},
+            {name: '潭州', value: 435},
+            {name: '桃园', value: 424},
+          ]
+        },
+        {
+          name: '山东',
+          value: 1354,
+          citys: [
+            {name: '济南', value: 615},
+            {name: '临沂', value: 443},
+            {name: '德州', value: 296},
+          ]
+        },
+        {
+          name: '东北',
+          value: 374,
+          citys: [
+            {name: '黑龙江', value: 112},
+            {name: '牡丹江', value: 65},
+            {name: '漠河', value: 197},
+          ]
+        }
+      ]
+
+      //左边——省份
+      let option={
+        title: {
+          text: '省份数据'
+        },
+        series: [
+          {
+            name: '省数据',
+            type: 'pie',
+            radius: '50%',
+            data: datas.map(json=>({name: json.name, value: json.value}))
+          }
+        ]
+      };
+
+      let chart=echarts.init(oLeft);
+      chart.setOption(option);
+
+      let chart2=echarts.init(oRight);
+
+      chart.on('mouseover', function (ev){
+        setCity(ev.name);
+      });
+
+      setCity(datas[0].name);
+      function setCity(name){
+        let data=null;
+
+        datas.forEach(json=>{
+          if(json.name==name){
+            data=json;
+          }
+        });
+
+        let option={
+          title: {
+            text: `${name}省`
+          },
+          xAxis: [
+            {
+              type: 'category',
+              data: data.citys.map(city=>city.name)
+            }
+          ],
+          yAxis: [
+            {
+              type: 'value'
+            }
+          ],
+          series: [
+            {
+              name: 'city',
+              //type: 'pie',
+              //data: data.citys
+              type: 'bar',
+              data: data.citys.map(city=>city.value)
+            }
+          ]
+        };
+
+        chart2.setOption(option);
+      }
+    };
+    </script>
+  </head>
+  <body>
+    <div class="box">
+      <div class="left"></div>
+      <div class="right"></div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="d3.js" charset="utf-8"></script>
+    <script>
+    window.onload=function (){
+      d3.queue()
+        .defer((a, b, cb)=>{
+          setTimeout(function (){
+            cb(null, a+b);
+          }, Math.floor(Math.random()*4000));
+        }, 12, 5)
+
+        .defer((a, b, cb)=>{
+          setTimeout(function (){
+            cb(null, a/b);
+          }, Math.floor(Math.random()*4000));
+        }, 22, 35)
+
+        .await((err, res1, res2)=>{
+          if(err){
+            alert('错了');
+          }else{
+            console.log(res1, res2);
+          }
+        });
+    };
+    </script>
+  </head>
+  <body>
+
+  </body>
+</html>
