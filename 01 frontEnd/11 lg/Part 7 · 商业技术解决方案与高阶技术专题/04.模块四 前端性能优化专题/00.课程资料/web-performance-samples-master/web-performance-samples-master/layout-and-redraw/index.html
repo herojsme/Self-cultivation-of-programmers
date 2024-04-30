@@ -28,23 +28,23 @@
       divs[0].style.height = '200px'
     }
 
-    // const list = document.getElementById('list')
-    // for (let i = 0; i < 10; i++) {
-    //   list.style.top = `${list.offsetTop + 10}px`
-    //   list.style.left = `${list.offsetLeft + 10}px`
-    // }
-
     const list = document.getElementById('list')
-    let { offsetTop, offsetLeft } = list
-
     for (let i = 0; i < 10; i++) {
-      offsetTop += 10
-      offsetLeft += 10
+      list.style.top = `${list.offsetTop + 10}px`
+      list.style.left = `${list.offsetLeft + 10}px`
     }
 
-    // 计算完成后统一赋值触发重排
-    list.style.left = offsetLeft
-    list.style.top = offsetTop
+    // const list = document.getElementById('list')
+    // let { offsetTop, offsetLeft } = list
+
+    // for (let i = 0; i < 10; i++) {
+    //   offsetTop += 10
+    //   offsetLeft += 10
+    // }
+
+    // // 计算完成后统一赋值触发重排
+    // list.style.left = offsetLeft
+    // list.style.top = offsetTop
   </script>
 </body>
 

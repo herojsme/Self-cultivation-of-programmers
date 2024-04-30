@@ -1,0 +1,81 @@
+为什么老师上课时候装完nginx不用启动，直接可以访问，在自己机器上需要启动一下
+有时候重载配置也会失败，nginx: [error] open() "/var/run/nginx.pid" failed (2: No such file or directory) 需要先启动nginx，再重载配置
+
+老师，如果我在nginx上 放了一个vue发布的项目，vue中写了个路由   /aaa，并且vue中去掉了#, nginx上配了个 /aaa 的端口转发，我去浏览器手打地址，是认哪个呢
+转发：地址、端口、host
+  #后面   不会发给服务器、只有浏览器能看见
+  /aaaa/asdfas/afasd/dfasdf?query
+
+
+  老师，curl --silent --location https://rpm.nodesource.com/setup_10.x | sudo bash - 死活没反应是怎么回事？助教说是国外源有时候不好使，叫换国内源试试，是这样吗？
+
+  curl --location https://rpm.nodesource.com/setup_10.x
+
+--------------------------------------------------------------------------------
+
+mysql
+mariaDB
+
+1.安装
+  yum install mariadb-server -y
+  mysql_install_db
+
+2.配置
+  cp /usr/share/mysql/my-xxx.cnf /etc/my.cnf
+
+3.实验启动
+  mysqld_safe
+
+4.正式启动
+  service mariadb start
+
+5.加个密码
+  mysqladmin -u 用户名 password
+
+6.权限(外部访问)
+  grant all privileges  on *.* to root@'%' identified by "password";
+
+--------------------------------------------------------------------------------
+
+chown 用户:组 目录|文件 -R
+
+--------------------------------------------------------------------------------
+
+把node程序变成服务：
+npm i -g forever
+
+  forever start|stop|restart|stopall
+
+  forever start xxxx.js
+  forever stop xxx.js
+  forever restart xxx.js
+
+--------------------------------------------------------------------------------
+
+单元测试：   测试组件本身(隔离)
+端到端操作： 测试组件之间配合
+
+--------------------------------------------------------------------------------
+
+angular版本：
+V1.2-
+V1.3+   最受欢迎
+V2      typescript
+V4      typescript、组件、启动器
+
+--------------------------------------------------------------------------------
+
+V1.3+
+V4
+
+--------------------------------------------------------------------------------
+
+权限：
+所有者   所有组   其他人
+rwx       -w-    --x
+
+--- --- ---
+111 010 001
+7   2   1
+
+--------------------------------------------------------------------------------

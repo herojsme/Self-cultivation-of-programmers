@@ -1,5 +1,6 @@
 // register service worker
 
+console.log('slfjsegeg', 9999999999999)
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker
     .register('/sw-test/sw.js', { scope: '/sw-test/' })
