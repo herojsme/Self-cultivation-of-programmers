@@ -1,4 +1,6 @@
-//dom
+## dom
+
+```js
     整个文档是一个文档（ Document）节点。
     每个HTML标签是一个元素（ Element）节点。
     每一个HTML属性是一个属性（ Attribute）节点。
@@ -26,12 +28,12 @@
         element元素节点:
             节点操作：
                 childNodes
-                nodeName 
+                nodeName
                 nodeType
                 nodeValue
-                parentNode  
-                parentElement 
-                previousSibling 
+                parentNode
+                parentElement
+                previousSibling
                 // 添加、移除、替换、插入
                 appendChild()
                 removeChild()
@@ -42,14 +44,16 @@
         事件：
             drag
             fullscreenchange
-            copy 
-            cut 
-            paste 
-            scroll 
-            wheel 
+            copy
+            cut
+            paste
+            scroll
+            wheel
+```
 
+## bom
 
-//bom window.navigator
+```js
 window;
     history
         replaceState() go() back()
@@ -74,17 +78,13 @@ window;
     locaStorage
         setItem()
         getItem()
+```
 
+#### Window. write 和 document.innerhtml 区别？
 
-Window. write和document.innerhtml区别？
     主要区别：document.write是直接将内容写入页面的内容流，会导致页面全部重绘，innerHTML将内容写入某个DOM节点，不会导致页面全部重绘
-document.onload和document.ready两个事件的区别？
+
+#### document.onload 和 document.ready 两个事件的区别？
+
     ready，表示文档结构已经加载完成（不包含图片等非文字媒体文件）
     onload，指示页面包含图片等文件在内的所有元素都加载完成
-
-
- 
-
-
-
-
