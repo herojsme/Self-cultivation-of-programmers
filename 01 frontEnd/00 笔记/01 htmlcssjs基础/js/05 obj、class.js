@@ -1,20 +1,3 @@
-// array
-//  切割截取 slice splice  split
-//  遍历  reduce  reduceRight  every some filter
-//  数据进出  push pop unshift shift
-//  复制 arr.slice()
-//   从某数组拷贝 Array.form(arr) [...arr]
-//   判断Array.isArray  Object.prototype.toString.call(arr)==="[Object Array]"
-//  reverse()
-
-去重;
-Array.isArray();
-
-// Set
-// WeakSet
-// Map
-// WeakMap
-
 // object
 // 属性 __proto__
 const obj = {};
@@ -53,11 +36,29 @@ Object.is();
 Object.hasOwenProperty();
 Object.getOwenPropertyNames();
 Object.getOwenPropertySymbols();
+Object.defineProperty(); //定义属性，读写，枚举
+Object.defineProperties(); //定义多个属性，读写，枚举
+Object.getOwnPropertyDescriptor(); //返回属性配置
+Object.getOwnPropertyDescriptors(); //
 
-// string
+// 原型操作
+Object.getPrototypeOf(); //获取对象的原型
+Object.setPrototypeOf(); //获取对象的原型
 
-// Symbol
-//属性 description
-//方法 for keyFor
-// 内置symbol
-// 内置symbol
+// prototype
+//  __proto__ 指向实例对象在实例化时使用的原型对象,请用getPrototypeOf、setPrototypeOf取代
+//  constructor 该实例对象的构造函数
+//  toString() 返回一个代表该对象的字符串
+
+// class
+class Project {
+  constructor() {
+    super();
+  }
+  to() {}
+  #ssw; //私有属性
+  static ss = 11; //关键字定义静态方法
+}
+
+// 继承
+//   extends
