@@ -1,3 +1,0 @@
-//dom
-
-//bom window.navigator
