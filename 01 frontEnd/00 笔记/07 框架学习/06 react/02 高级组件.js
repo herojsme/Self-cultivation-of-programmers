@@ -69,7 +69,7 @@ class BlogPost extends React.Component {
   }
 }
 
-// 上面组件内部的功能很多重复的,可以用hoc重构
+// 上面组件内部的功能很多重复的,可以用 hoc 重构
 const CommentListWithSubscription = withSubscription(
   CommentList,
   (DataSource) => DataSource.getComments()
