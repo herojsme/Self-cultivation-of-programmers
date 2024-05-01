@@ -81,9 +81,52 @@ list-style-type
   超链接有对应的伪类：:link、:visited、:hover、:focus、:active
 ```
 
-# 动画
+# 过渡与动画
 
-# 自适应
+```css
+/* -------------过渡 -----------------*/
+div {
+  width: 200px;
+  height: 100px;
+  background-color: pink;
+  /* transition: 要过渡的属性  花费时间  运动曲线  何时开始; */
+  transition: width 0.6s ease 0s, height 0.3s ease-in 1s;
+  /* transtion 过渡的意思  这句话写到div里面而不是 hover里面 */
+}
+div:hover {
+  /* 鼠标经过盒子，我们的宽度变为400 */
+  width: 600px;
+  height: 300px;
+}
+
+/* -------------动画代码------------- */
+@keyframes example {
+  from {
+    background-color: red;
+  }
+  to {
+    background-color: yellow;
+  }
+
+  /* 0%   {background-color: red;}
+  25%  {background-color: yellow;}
+  50%  {background-color: blue;}
+  100% {background-color: green;} */
+}
+
+/* 向此元素应用动画效果 */
+div {
+  width: 100px;
+  height: 100px;
+  background-color: red;
+  animation-name: example;
+  animation-duration: 4s;
+  /* animation-delay：-1s;延迟动画 */
+  /* animation-iteration-count：2;运行多少次 */
+  /* animation-direction：normal(向前);reverse(向后);alternate(先向前然后向后);alternate-reverse(先向后然后向前)*/
+  /* animation-timing-function: 运动曲线*/
+}
+```
 
 # 布局
 

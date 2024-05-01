@@ -133,7 +133,3 @@ const ctx = canvas.getContext('2d')
     - 子页面里面 window.top 获取最顶层 window 对象
     - 子页面里面 window.parent 获取父级 window 对象
     - 子页面里面 window.self 获取自身 window 对象
-
-### svg
-
-### 刷新浏览器缓存
